@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -112,38 +111,12 @@ fun MascotasScreen(
                 }
             }
         }
-        item {
-            Text("Mis identificaciones (${mascotas.size})", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Verde40)
-        }
         if (mascotas.isEmpty()) {
             item { Text("Aún no tienes mascotas registradas.", modifier = Modifier.padding(vertical = 8.dp)) }
-        } else {
-            items(mascotas, key = { it.id }) { mascota ->
-                MascotaCard(mascota, onEliminar)
-            }
         }
     }
 }
 
-@Composable
-private fun MascotaCard(mascota: Mascota, onEliminar: (Mascota) -> Unit) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = FondoPet),
-        shape = RoundedCornerShape(16.dp)
-    ) {
-        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text(mascota.nombre, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Verde40)
-            Text("${mascota.especie} · ${mascota.raza.ifBlank { "Raza no especificada" }}")
-            Text("Nacimiento: ${mascota.fechaNacimiento}")
-            if (mascota.sexo.isNotBlank() || mascota.color.isNotBlank()) Text("${mascota.sexo} · ${mascota.color}")
-            if (mascota.nombreResponsable.isNotBlank()) Text("Responsable: ${mascota.nombreResponsable}")
-            if (mascota.microchip.isNotBlank()) Text("Microchip: ${mascota.microchip}")
-            Text("ID único: ${mascota.id}", style = MaterialTheme.typography.labelSmall)
-            Button(onClick = { onEliminar(mascota) }) { Text("Eliminar registro") }
-        }
-    }
-}
 
 @Composable
 private fun Campo(

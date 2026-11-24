@@ -28,6 +28,7 @@ import org.utl.mypet.ui.theme.Verde40
 import org.utl.mypet.viewmodel.MascotaViewModel
 import org.utl.mypet.viewmodel.RazasViewModel
 import org.utl.mypet.viewmodel.RazasViewModelFactory
+import org.utl.mypet.screens.RegistrosScreen
 
 @Composable
 fun HomeView() {
@@ -66,6 +67,12 @@ fun HomeView() {
                     icon = { Text("🐶") },
                     label = { Text("Perros") }
                 )
+                NavigationBarItem(
+                    selected = selectedTab == 2,
+                    onClick = { selectedTab = 2 },
+                    icon = { Text("📝") },
+                    label = { Text("Registros") }
+                )
             }
         }
     ) { innerPadding ->
@@ -79,6 +86,11 @@ fun HomeView() {
             1 -> RazasScreen(
                 state = razasState,
                 onRetry = { razasViewModel.cargarRazas() },
+                modifier = Modifier.padding(innerPadding)
+            )
+            2 -> RegistrosScreen(
+                mascotas = mascotas,
+                onEliminar = { mascotaViewModel.eliminar(it) },
                 modifier = Modifier.padding(innerPadding)
             )
         }

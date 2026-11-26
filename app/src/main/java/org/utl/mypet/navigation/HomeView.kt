@@ -22,6 +22,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.utl.mypet.data.remote.RetrofitInstance
 import org.utl.mypet.data.repository.RazaRepository
+import org.utl.mypet.screens.CartillaVacunacionScreen
 import org.utl.mypet.screens.MascotasScreen
 import org.utl.mypet.screens.RazasScreen
 import org.utl.mypet.ui.theme.Verde40
@@ -73,6 +74,12 @@ fun HomeView() {
                     icon = { Text("📝") },
                     label = { Text("Registros") }
                 )
+                NavigationBarItem(
+                    selected = selectedTab == 3,
+                    onClick = { selectedTab = 3 },
+                    icon = { Text("💉") },
+                    label = { Text("Vacuncación") }
+                )
             }
         }
     ) { innerPadding ->
@@ -93,6 +100,7 @@ fun HomeView() {
                 onEliminar = { mascotaViewModel.eliminar(it) },
                 modifier = Modifier.padding(innerPadding)
             )
+            3 -> CartillaVacunacionScreen()
         }
     }
 }

@@ -32,16 +32,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import org.utl.mypet.data.UsuarioViewModel
 import org.utl.mypet.ui.theme.TextoOscuro
 import org.utl.mypet.ui.theme.TextoSuave
 import org.utl.mypet.ui.theme.Turquesa
 
 
 @Composable
-fun LoginView() {
+fun LoginView(
+    navController: NavHostController,
+    viewModel: UsuarioViewModel,
+    onLoginSuccess: () -> Unit
+) {
+    val context = androidx.compose.ui.platform.LocalContext.current
     var correo by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
 
@@ -143,7 +149,18 @@ fun LoginView() {
             Spacer(modifier = Modifier.height(22.dp))
 
             Button(
-                onClick = { },
+                onClick = {
+                    viewModel.iniciarSesion(
+                        usuario = correo,
+                        contrasena = contrasena,
+                        onSucces = {
+                            onLoginSuccess()
+                        },
+                        onError = {
+                            android.widget.Toast.makeText(context, "Usuario o contraseña incorrectos", android.widget.Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
@@ -155,31 +172,9 @@ fun LoginView() {
                 Text("Iniciar Sesión", fontSize = 15.sp)
             }
 
-            TextButton(onClick = { }) {
-                Text(
-                    "¿Olvidaste tu contraseña?",
-                    color = Turquesa,
-                    fontSize = 12.sp
-                )
-            }
-
-            Button(
-                onClick = { },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(46.dp),
-                shape = RoundedCornerShape(50),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Transparent,
-                    contentColor = Turquesa
-                )
-            ) {
-                Text("Registrarse", fontSize = 14.sp)
-            }
-
             Spacer(modifier = Modifier.height(5.dp))
 
-            TextButton(onClick = { }) {
+            TextButton(onClick = { navController.navigate("registro") }) {
                 Text(
                     "¿No tienes cuenta? Crea una nueva.",
                     color = TextoOscuro,
@@ -190,8 +185,4 @@ fun LoginView() {
     }
 }
 
-@Preview
-@Composable
-fun PantallaPrincipal() {
-    LoginView()
-}
+

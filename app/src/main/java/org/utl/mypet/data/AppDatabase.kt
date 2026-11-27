@@ -6,9 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import org.utl.mypet.data.model.Mascota
 
-@Database(entities = [Mascota::class], version = 1, exportSchema = false)
+@Database(entities = [Mascota::class, Usuario::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun mascotaDao(): MascotaDAO
+    abstract fun usuarioDao(): UsuarioDao
+
 
     companion object {
         @Volatile
